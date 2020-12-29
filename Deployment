@@ -1,0 +1,40 @@
+DEPLOYMENT
+Docker HuB Repository(image): 235325/jobtaskmanger
+Steps to Deployment on Local Kubernetes
+•	Create knote.yaml file with following data.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: knote
+spec:
+replicas: 1
+selector:
+matchLabels:
+app: knote
+template:
+metadata:
+labels:
+app: knote
+spec:
+containers:
+- name: jobtaskmanager
+image: 235325/jobtaskmanger
+ports:
+- containerPort: 8085
+---
+apiVersion: v1
+kind: Service
+metadata:
+name: knote
+spec:
+selector:
+app: knote
+ports:
+- port: 80
+targetPort: 8085
+type: LoadBalancer
+-------------------------------------------------------------------------------------
+•	Save above File as knote.yaml file
+•	Open CMD in directory where your knote.yaml file present Then type Command: kubectl apply -f knote.yaml
+•	Then This Command: kubectl get pods --watch
+•	Then This Command: minikube service knote
